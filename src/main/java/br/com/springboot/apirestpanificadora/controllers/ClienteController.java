@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(value = "/cliente")
 public class ClienteController {
@@ -45,13 +46,13 @@ public class ClienteController {
         return new ResponseEntity<Cliente>(novoCliente, HttpStatus.CREATED);
     }
 
+
     @PutMapping("/")
     @ResponseBody
     public ResponseEntity<Cliente> atualizarCliente(@RequestBody Cliente cliente){
         Cliente clienteSalvo = clienteRepository.save(cliente);
         return  new ResponseEntity<Cliente>(clienteSalvo, HttpStatus.OK);
     }
-
 
     @DeleteMapping("/{id}")
     @ResponseBody

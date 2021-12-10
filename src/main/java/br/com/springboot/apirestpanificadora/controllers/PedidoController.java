@@ -44,6 +44,7 @@ public class PedidoController {
             item.setPedido(pedido);
             item.setValorTotalItens(item.getProduto().getValorUnitario().multiply(item.getQuantidade()));
             valorTotalDoPedido = valorTotalDoPedido.add(item.getValorTotalItens());
+
         }
 
         pedido.setValorTotal(valorTotalDoPedido);
@@ -53,12 +54,27 @@ public class PedidoController {
 
     @PutMapping("/")
     public ResponseEntity<Pedido> atualizarPedido(@RequestBody Pedido pedido){
-        for(int i = 0; i < pedido.getItens().size(); i++){
-           pedido.getItens().get(i).setPedido(pedido);
-        }
-        Pedido novoPedido = pedidoRepository.save(pedido);
-        return new ResponseEntity<Pedido>(novoPedido, HttpStatus.OK);
+        BigDecimal valorTotalDoPedido = BigDecimal.ZERO;
+       for (ItemPedido item : pedido.getItens()) {
+           item.setPedido(pedido);
+           pedido.setItens(item.getPedido().getItens());
+           item.setValorTotalItens(item.getProduto().getValorUnitario().multiply(item.getQuantidade()));
+           valorTotalDoPedido = valorTotalDoPedido.add(item.getValorTotalItens());
+       }
+        pedido.setValorTotal(valorTotalDoPedido);
+        Pedido pedidoAlterado = pedidoRepository.save(pedido);
+        return new ResponseEntity<Pedido>(pedidoAlterado, HttpStatus.OK);
     }
+
+//    @PutMapping("/")
+//    public ResponseEntity<Pedido> atualizarPedido(@RequestBody Pedido pedido){
+//        for(int i = 0; i < pedido.getItens().size(); i++){
+//           pedido.getItens().get(i).setPedido(pedido);
+//
+//        }
+//        pedidoRepository.save(pedido);
+//        return new ResponseEntity<Pedido>(pedido, HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarPedidoPorId(@PathVariable(value = "id") Long id){

@@ -1,7 +1,8 @@
 package br.com.springboot.apirestpanificadora.models;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
+
 
 @Entity
 @Table(name = "clientes")
@@ -12,6 +13,9 @@ public class Cliente{
     private Long id;
     private String codigo;
     private String nome;
+
+    public Cliente() {
+    }
 
     public Long getId() {
         return id;

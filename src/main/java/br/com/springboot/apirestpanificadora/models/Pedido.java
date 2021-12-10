@@ -1,5 +1,6 @@
 package br.com.springboot.apirestpanificadora.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -19,6 +20,7 @@ public class Pedido {
 
     private Long numero;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dataPedido = LocalDate.now();
 
     //Muitos pedidos para um cliente
